@@ -71,8 +71,6 @@ class Swiver_Product {
 		// Use the centralized tax management function
 		$tax = Swiver_Helper::find_or_create_tax($this->api_token, $tax_rate);
 
-		$a = 0;
-
 		$product = [
 			'name'              => $order_product->get_name(),
 			'description'       => get_post( $order_product->get_product_id() )->post_content,

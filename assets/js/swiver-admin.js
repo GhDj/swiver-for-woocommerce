@@ -9,7 +9,7 @@
             var token = $('#swiver_token').val();
 
             if (!token) {
-                showMessage('error', 'Please enter a token.');
+                showMessage('error', swiverAjax.strings.errorEmptyToken);
                 return;
             }
 
@@ -38,7 +38,7 @@
                     }
                 },
                 error: function() {
-                    showMessage('error', 'An error occurred. Please try again.');
+                    showMessage('error', swiverAjax.strings.errorGeneric);
                     $btn.prop('disabled', false);
                     $btn.text($btn.data('original-text'));
                 }
@@ -74,7 +74,7 @@
                     }
                 },
                 error: function() {
-                    showMessage('error', 'An error occurred. Please try again.');
+                    showMessage('error', swiverAjax.strings.errorGeneric);
                     $btn.prop('disabled', false);
                     $btn.html($btn.data('original-text'));
                 }
@@ -86,7 +86,7 @@
             e.preventDefault();
             var $btn = $(this);
 
-            if (!confirm('Are you sure you want to disconnect from Swiver?')) {
+            if (!confirm(swiverAjax.strings.confirmDisconnect)) {
                 return;
             }
 
@@ -114,7 +114,7 @@
                     }
                 },
                 error: function() {
-                    showMessage('error', 'An error occurred. Please try again.');
+                    showMessage('error', swiverAjax.strings.errorGeneric);
                     $btn.prop('disabled', false);
                     $btn.text($btn.data('original-text'));
                 }
@@ -154,7 +154,7 @@
                     }
                 },
                 error: function() {
-                    showMessage('error', 'An error occurred. Please try again.');
+                    showMessage('error', swiverAjax.strings.errorGeneric);
                     $btn.prop('disabled', false);
                     $btn.text($btn.data('original-text'));
                 }
@@ -187,7 +187,7 @@
                     if (response.success) {
                         showMessage('success', response.data.message);
                         // Replace button with success badge and WC tax name
-                        var html = '<span class="badge bg-success">Matched</span>';
+                        var html = '<span class="badge bg-success">' + swiverAjax.strings.matched + '</span>';
                         if (response.data.wc_name) {
                             html += ' <small class="text-muted"><span class="dashicons dashicons-arrow-right-alt" style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle;"></span> ' + response.data.wc_name + '</small>';
                         }
@@ -199,7 +199,7 @@
                     }
                 },
                 error: function() {
-                    showMessage('error', 'An error occurred. Please try again.');
+                    showMessage('error', swiverAjax.strings.errorGeneric);
                     $btn.prop('disabled', false);
                     $btn.text($btn.data('original-text'));
                 }

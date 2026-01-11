@@ -90,10 +90,12 @@ class Swiver_Helper {
         if (!$timestamp) {
             return __('Never', 'swiver');
         }
+        /* translators: 1: date, 2: time */
+        $format_string = __( '%1$s at %2$s', 'swiver' );
         return sprintf(
-            __('%s at %s', 'swiver'),
-            date_i18n(get_option('date_format'), $timestamp),
-            date_i18n(get_option('time_format'), $timestamp)
+            $format_string,
+            date_i18n( get_option( 'date_format' ), $timestamp ),
+            date_i18n( get_option( 'time_format' ), $timestamp )
         );
     }
 
@@ -144,7 +146,9 @@ class Swiver_Helper {
         ]);
 
         if (is_wp_error($response)) {
-            error_log(__('Error retrieving taxes from API:', 'swiver') . ' ' . $response->get_error_message());
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'Swiver: Error retrieving taxes from API: ' . $response->get_error_message() );
+            }
             return [];
         }
 

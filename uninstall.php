@@ -60,6 +60,6 @@ $wpdb->query(
 );
 
 // Log the uninstallation
-if ( function_exists( 'error_log' ) ) {
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 	error_log( 'Swiver for WooCommerce has been uninstalled and all data has been removed.' );
 }

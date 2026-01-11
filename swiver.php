@@ -1,13 +1,15 @@
 <?php
 /**
  * Plugin Name:     Swiver for WooCommerce
- * Plugin URI:
- * Description: The Swiver extension for WordPress is a powerful tool designed to seamlessly integrate your company’s website with the Swiver invoicing platform
+ * Plugin URI:      https://github.com/GhDj/swiver-for-woocommerce
+ * Description:     The Swiver extension for WordPress is a powerful tool designed to seamlessly integrate your company's website with the Swiver invoicing platform
  * Author:          Ghabri Djalel
  * Author URI:      https://github.com/GhDj
  * Text Domain:     swiver
  * Domain Path:     /languages
  * Version:         1.0.0
+ * Requires at least: 6.0
+ * Requires PHP:    7.4
  * WC tested up to: 9.5.2
  * Requires plugins: woocommerce
  * License:         GPLv3 or later
@@ -100,7 +102,9 @@ function swiver_for_woocommerce_deactivate() {
 	}
 
 	// Log the deactivation
-	error_log(__('Swiver for WooCommerce has been deactivated and all data has been cleared.', 'swiver'));
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		error_log( 'Swiver for WooCommerce: Plugin deactivated and all data cleared.' );
+	}
 }
 
 add_action('admin_notices', __NAMESPACE__ . '\\swiver_for_woocommerce_admin_notice');

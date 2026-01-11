@@ -39,11 +39,11 @@ class Swiver_Settings
     public function add_settings_page()
     {
         add_menu_page(
-            __('swiver_settings', 'swiver'),        // Page title
+            __('Swiver Settings', 'swiver'),        // Page title
             __('Swiver', 'swiver'),                 // Menu title
-            'manage_options',            // Capability
-            'swiver-token-settings',        // Menu slug
-            [$this, 'settings_page_content'],  // Callback function
+            'manage_options',                       // Capability
+            'swiver-token-settings',                // Menu slug
+            [$this, 'settings_page_content'],       // Callback function
             SWIVER_PLUGIN_URL . 'assets/logo-swiver.svg',    // Icon
             56
         );
@@ -96,7 +96,7 @@ class Swiver_Settings
             wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
         }
 
-        $token = isset($_POST['token']) ? sanitize_text_field($_POST['token']) : '';
+        $token = isset($_POST['token']) ? sanitize_text_field( wp_unslash( $_POST['token'] ) ) : '';
 
         if (empty($token)) {
             wp_send_json_error(['message' => __('Token cannot be empty.', 'swiver')]);
@@ -184,9 +184,9 @@ class Swiver_Settings
             wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
         }
 
-        $tax_rate = isset($_POST['tax_rate']) ? floatval($_POST['tax_rate']) : 0;
-        $tax_name = isset($_POST['tax_name']) ? sanitize_text_field($_POST['tax_name']) : '';
-        $tax_id = isset($_POST['tax_id']) ? intval($_POST['tax_id']) : 0;
+        $tax_rate = isset($_POST['tax_rate']) ? floatval( wp_unslash( $_POST['tax_rate'] ) ) : 0;
+        $tax_name = isset($_POST['tax_name']) ? sanitize_text_field( wp_unslash( $_POST['tax_name'] ) ) : '';
+        $tax_id = isset($_POST['tax_id']) ? intval( wp_unslash( $_POST['tax_id'] ) ) : 0;
 
         if ($tax_rate <= 0) {
             wp_send_json_error(['message' => __('Invalid tax rate.', 'swiver')]);
@@ -197,13 +197,20 @@ class Swiver_Settings
             'tax_rate_country'  => '',
             'tax_rate_state'    => '',
             'tax_rate'          => $tax_rate,
-            'tax_rate_name'     => $tax_name ?: sprintf(__('Tax %s%%', 'swiver'), $tax_rate),
+            /* translators: %s: tax rate percentage */
+            'tax_rate_name'     => $tax_name ?: sprintf( __( 'Tax %s%%', 'swiver' ), $tax_rate ),
             'tax_rate_priority' => 1,
             'tax_rate_compound' => 0,
             'tax_rate_shipping' => 1,
             'tax_rate_order'    => 0,
             'tax_rate_class'    => '',
         ];
+
+        // WC_Tax::_insert_tax_rate() is the documented method for inserting tax rates programmatically.
+        // Despite the underscore prefix, this is the standard approach used by WooCommerce extensions.
+        if ( ! class_exists( 'WC_Tax' ) || ! method_exists( 'WC_Tax', '_insert_tax_rate' ) ) {
+            wp_send_json_error(['message' => __('WooCommerce tax functionality not available.', 'swiver')]);
+        }
 
         $new_tax_id = \WC_Tax::_insert_tax_rate($tax_rate_data);
 
@@ -222,8 +229,10 @@ class Swiver_Settings
                 Swiver_Helper::clear_options_cache();
             }
 
+            /* translators: %s: tax rate percentage */
+            $success_message = sprintf( __( 'Tax rate %s%% added to WooCommerce.', 'swiver' ), $tax_rate );
             wp_send_json_success([
-                'message' => sprintf(__('Tax rate %s%% added to WooCommerce.', 'swiver'), $tax_rate),
+                'message' => $success_message,
                 'wc_name' => $tax_rate_data['tax_rate_name']
             ]);
         } else {
@@ -245,6 +254,11 @@ class Swiver_Settings
             wp_send_json_error(['message' => __('No taxes found.', 'swiver')]);
         }
 
+        // WC_Tax::_insert_tax_rate() is the documented method for inserting tax rates programmatically.
+        if ( ! class_exists( 'WC_Tax' ) || ! method_exists( 'WC_Tax', '_insert_tax_rate' ) ) {
+            wp_send_json_error(['message' => __('WooCommerce tax functionality not available.', 'swiver')]);
+        }
+
         $added_count = 0;
         $failed_count = 0;
 
@@ -261,7 +275,8 @@ class Swiver_Settings
             }
 
             // Create WooCommerce tax rate
-            $wc_tax_name = $tax['name'] ?: sprintf(__('Tax %s%%', 'swiver'), $tax_rate);
+            /* translators: %s: tax rate percentage */
+            $wc_tax_name = $tax['name'] ?: sprintf( __( 'Tax %s%%', 'swiver' ), $tax_rate );
             $tax_rate_data = [
                 'tax_rate_country'  => '',
                 'tax_rate_state'    => '',
@@ -290,25 +305,23 @@ class Swiver_Settings
         Swiver_Helper::clear_options_cache();
 
         if ($added_count > 0) {
-            $message = sprintf(
-                _n(
-                    '%d tax rate added to WooCommerce.',
-                    '%d tax rates added to WooCommerce.',
-                    $added_count,
-                    'swiver'
-                ),
-                $added_count
+            /* translators: %d: number of tax rates added */
+            $added_text = _n(
+                '%d tax rate added to WooCommerce.',
+                '%d tax rates added to WooCommerce.',
+                $added_count,
+                'swiver'
             );
+            $message = sprintf( $added_text, $added_count );
             if ($failed_count > 0) {
-                $message .= ' ' . sprintf(
-                    _n(
-                        '%d failed.',
-                        '%d failed.',
-                        $failed_count,
-                        'swiver'
-                    ),
-                    $failed_count
+                /* translators: %d: number of failed tax rates */
+                $failed_text = _n(
+                    '%d failed.',
+                    '%d failed.',
+                    $failed_count,
+                    'swiver'
                 );
+                $message .= ' ' . sprintf( $failed_text, $failed_count );
             }
             wp_send_json_success(['message' => $message, 'added' => $added_count]);
         } else {
@@ -350,7 +363,9 @@ class Swiver_Settings
         $response = $this->fetch_api_endpoint('me', $api_token);
         if ($response === false) {
             // Critical endpoint failed
-            error_log(__('Failed to fetch company data from Swiver API', 'swiver'));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'Swiver: Failed to fetch company data from API.' );
+            }
             return false;
         }
         if ($response) {
@@ -373,7 +388,7 @@ class Swiver_Settings
 
         if (!empty($api_data) && isset($api_data['data'])) {
             update_option('swiver_api_retrieved_data', $api_data);
-            update_option('swiver_last_sync', current_time('timestamp'));
+            update_option('swiver_last_sync', time());
             Swiver_Helper::clear_options_cache();
             return true;
         }
@@ -395,13 +410,17 @@ class Swiver_Settings
         );
 
         if (is_wp_error($response)) {
-            error_log(__('Error retrieving data from API:', 'swiver') . ' ' . $response->get_error_message());
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'Swiver: Error retrieving data from API: ' . $response->get_error_message() );
+            }
             return false;
         }
 
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code !== 200) {
-            error_log(sprintf(__('API returned status code %d for endpoint: %s', 'swiver'), $status_code, $key));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( sprintf( 'Swiver: API returned status code %d for endpoint: %s', $status_code, $key ) );
+            }
             return false;
         }
 
@@ -410,20 +429,26 @@ class Swiver_Settings
 
         // Check if JSON decoding failed
         if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log(sprintf(__('JSON decode error for %s: %s', 'swiver'), $key, json_last_error_msg()));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( sprintf( 'Swiver: JSON decode error for %s: %s', $key, json_last_error_msg() ) );
+            }
             return false;
         }
 
         // Check for API error responses (error object with code and message)
         if (is_array($data) && isset($data['code']) && isset($data['message'])) {
-            error_log(sprintf(__('API error for %s: %s', 'swiver'), $key, $data['message']));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( sprintf( 'Swiver: API error for %s: %s', $key, $data['message'] ) );
+            }
             return false;
         }
 
         // For non-critical endpoints, allow empty arrays (they might just have no data)
         // For 'me' endpoint, we need actual data
         if ($key === 'me' && empty($data)) {
-            error_log(sprintf(__('Empty response for critical endpoint: %s', 'swiver'), $key));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( sprintf( 'Swiver: Empty response for critical endpoint: %s', $key ) );
+            }
             return false;
         }
 
@@ -481,6 +506,10 @@ class Swiver_Settings
                 'disconnecting' => __('Disconnecting...', 'swiver'),
                 'addingTaxes' => __('Adding...', 'swiver'),
                 'confirmAddAllTaxes' => __('Add all unmatched tax rates to WooCommerce?', 'swiver'),
+                'confirmDisconnect' => __('Are you sure you want to disconnect from Swiver?', 'swiver'),
+                'errorEmptyToken' => __('Please enter a token.', 'swiver'),
+                'errorGeneric' => __('An error occurred. Please try again.', 'swiver'),
+                'matched' => __('Matched', 'swiver'),
             ]
         ]);
     }

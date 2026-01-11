@@ -19,7 +19,9 @@ class Swiver_Order_Sync {
 		$warehouse   = $api_data['warehouses'];
 
 		if (!$api_token) {
-			error_log(__('No API token set.', 'swiver'));
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Swiver: No API token set.' );
+			}
 			return;
 		}
 
@@ -122,10 +124,14 @@ class Swiver_Order_Sync {
 
 
 		if (is_wp_error($response)) {
-			error_log(__('Error sending order data:', 'swiver') . ' ' . $response->get_error_message());
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Swiver: Error sending order data: ' . $response->get_error_message() );
+			}
 			return false;
 		} else {
-			error_log(__('Order data sent successfully:', 'swiver'));
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Swiver: Order data sent successfully.' );
+			}
 			$body = wp_remote_retrieve_body( $response );
 			return json_decode($body, true);
 		}
@@ -150,10 +156,14 @@ class Swiver_Order_Sync {
 		] );
 
 		if (is_wp_error($response)) {
-			error_log(__('Error validating draft:', 'swiver') . ' ' . $response->get_error_message());
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Swiver: Error validating draft: ' . $response->get_error_message() );
+			}
 			return false;
 		} else {
-			error_log(__('Order synced success', 'swiver'));
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Swiver: Order synced successfully.' );
+			}
 			$body = wp_remote_retrieve_body( $response );
 			return json_decode($body, true);
 		}

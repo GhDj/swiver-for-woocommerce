@@ -2,6 +2,10 @@
 
 namespace Swiver\Swiver_WooCommerce;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Swiver\Swiver_WooCommerce\Swiver_Helper;
 
 class Swiver_WooCommerce {
@@ -41,7 +45,7 @@ class Swiver_WooCommerce {
 			add_action( 'admin_notices', function () {
 				?>
 				<div id="message" class="notice notice-error">
-					<p><?php esc_html(__( 'Swiver requires an active version of WooCommerce', 'swiver' )); ?></p>
+					<p><?php echo esc_html__( 'Swiver requires an active version of WooCommerce', 'swiver' ); ?></p>
 				</div>
 				<?php
 			} );
@@ -73,6 +77,7 @@ class Swiver_WooCommerce {
 		$swiver_id = $product ? $product->get_meta( 'swiver_id' ) : '';
 
 		echo '<div class="options_group">';
+		wp_nonce_field( 'swiver_product_meta', 'swiver_product_nonce' );
 		woocommerce_wp_checkbox(
 			array(
 				'id'      => 'swiver-sync',
@@ -98,15 +103,29 @@ class Swiver_WooCommerce {
 
 	function swiver_product_save_field( $id ) {
 
+		// Verify nonce
+		if ( ! isset( $_POST['swiver_product_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['swiver_product_nonce'] ) ), 'swiver_product_meta' ) ) {
+			return;
+		}
+
+		// Check user capability
+		if ( ! current_user_can( 'edit_post', $id ) ) {
+			return;
+		}
+
 		$product = wc_get_product( $id ); // Use WooCommerce's product abstraction
+
+		if ( ! $product ) {
+			return;
+		}
 
 		// Save the 'swiver_sync' checkbox value
 		$sync = isset( $_POST['swiver-sync'] ) && 'yes' === $_POST['swiver-sync'] ? 'yes' : 'no';
-		$product->update_meta_data( 'swiver_sync', wp_unslash($sync) );
+		$product->update_meta_data( 'swiver_sync', $sync );
 
 		// Save the 'swiver_id' text field value
-		$swiver_id = isset( $_POST['swiver-id'] ) ? sanitize_text_field( $_POST['swiver-id'] ) : '';
-		$product->update_meta_data( 'swiver_id', wp_unslash($swiver_id) );
+		$swiver_id = isset( $_POST['swiver-id'] ) ? sanitize_text_field( wp_unslash( $_POST['swiver-id'] ) ) : '';
+		$product->update_meta_data( 'swiver_id', $swiver_id );
 
 		$product->save(); // Save changes to the product
 

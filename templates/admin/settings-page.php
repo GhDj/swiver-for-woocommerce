@@ -13,22 +13,22 @@ $last_sync = Swiver_Helper::get_last_sync_formatted();
 
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center border-bottom mt-3 pb-3 mb-3">
-        <h2 class="mb-0"><?php echo esc_html(__('swiver_settings', 'swiver')); ?></h2>
+        <h2 class="mb-0"><?php echo esc_html__('Swiver Settings', 'swiver'); ?></h2>
         <?php if ($is_connected): ?>
             <button type="button" id="swiver-resync-btn" class="btn btn-outline-primary">
                 <span class="dashicons dashicons-update" style="vertical-align: middle;"></span>
-                <?php echo esc_html(__('Resync', 'swiver')); ?>
+                <?php echo esc_html__('Resync', 'swiver'); ?>
             </button>
         <?php endif; ?>
     </div>
 
     <!-- Connection Status Indicator -->
-    <div class="card mb-4" style="border-left: 4px solid <?php echo $is_connected ? '#28a745' : '#dc3545'; ?>;">
+    <div class="card mb-4" style="border-left: 4px solid <?php echo esc_attr( $is_connected ? '#28a745' : '#dc3545' ); ?>;">
         <div class="card-body py-3">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
-                    <span class="badge <?php echo $is_connected ? 'bg-success' : 'bg-danger'; ?> me-3">
-                        <?php echo $is_connected ? esc_html(__('Connected', 'swiver')) : esc_html(__('Not Connected', 'swiver')); ?>
+                    <span class="badge <?php echo esc_attr( $is_connected ? 'bg-success' : 'bg-danger' ); ?> me-3">
+                        <?php echo $is_connected ? esc_html__('Connected', 'swiver') : esc_html__('Not Connected', 'swiver'); ?>
                     </span>
                     <?php if ($is_connected && $company_name): ?>
                         <span class="text-muted">
@@ -38,7 +38,7 @@ $last_sync = Swiver_Helper::get_last_sync_formatted();
                 </div>
                 <?php if ($is_connected): ?>
                     <small class="text-muted">
-                        <?php echo esc_html(__('Last synced:', 'swiver')); ?> <?php echo esc_html($last_sync); ?>
+                        <?php echo esc_html__('Last synced:', 'swiver'); ?> <?php echo esc_html($last_sync); ?>
                     </small>
                 <?php endif; ?>
             </div>
@@ -54,18 +54,18 @@ $last_sync = Swiver_Helper::get_last_sync_formatted();
             <div class="col-12 col-md-6">
                 <div class="mt-4">
                     <div class="input-group">
-                        <span class="input-group-text"><?php echo esc_html(__('swiver_token', 'swiver')); ?></span>
+                        <span class="input-group-text"><?php echo esc_html__('API Token', 'swiver'); ?></span>
                         <input type="password"
                                class="form-control"
                                id="swiver_token"
                                name="swiver_token"
                                value=""
-                               aria-label="<?php echo esc_html(__('swiver_token', 'swiver')); ?>"
-                               placeholder="<?php echo esc_html(__('swiver_token', 'swiver')); ?>">
+                               aria-label="<?php echo esc_attr__('API Token', 'swiver'); ?>"
+                               placeholder="<?php echo esc_attr__('Enter your Swiver API token', 'swiver'); ?>">
                     </div>
                     <div class="mt-3">
                         <button type="button" id="swiver-sync-btn" class="btn btn-primary float-end">
-                            <?php echo esc_html(__('Synchronize', 'swiver')); ?>
+                            <?php echo esc_html__('Synchronize', 'swiver'); ?>
                         </button>
                     </div>
                 </div>
@@ -89,7 +89,7 @@ $last_sync = Swiver_Helper::get_last_sync_formatted();
                 <hr>
                 <div class="d-flex justify-content-end">
                     <button type="button" id="swiver-disconnect-btn" class="btn btn-danger">
-                        <?php echo esc_html(__('Disconnect', 'swiver')); ?>
+                        <?php echo esc_html__('Disconnect', 'swiver'); ?>
                     </button>
                 </div>
             </div>

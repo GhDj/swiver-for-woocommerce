@@ -2,7 +2,7 @@
 Contributors: ghabri, swiver
 Tags: woocommerce, invoices, invoicing, swiver, order sync
 Requires at least: 6.0
-Tested up to: 6.7.1
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv3 or later
@@ -70,6 +70,34 @@ in the Extensions section.
 * WooCommerce HPOS compatibility
 * Tested up to: WooCommerce 9.5.2
 * Tested up to: WordPress 6.7.1
+
+== External Services ==
+
+This plugin connects to the Swiver invoicing platform API to synchronize your WooCommerce data.
+
+= What data is sent? =
+
+When you use this plugin, the following data may be transmitted to Swiver's servers:
+
+* **Order Information** - Order details, totals, discounts, and notes
+* **Customer Data** - Customer names, addresses, phone numbers, and email addresses
+* **Product Information** - Product names, descriptions, SKUs, and prices
+* **Tax Rates** - Tax configuration from your Swiver account
+
+= Service Details =
+
+* **Service Provider:** Swiver
+* **API Endpoint:** https://server.swiver.io/open_api/
+* **Website:** https://swiver.io
+* **Terms of Service:** https://swiver.io/terms
+* **Privacy Policy:** https://swiver.io/privacy
+
+Data is only transmitted when:
+1. You enter your API token and click "Synchronize"
+2. A customer completes checkout (order sync)
+3. You manually trigger a resync
+
+No data is sent without your explicit action. Your API token is stored securely in your WordPress database.
 
 == Frequently Asked Questions ==
 
