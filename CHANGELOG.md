@@ -34,5 +34,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Nonce verification for AJAX requests
 - Capability checks for admin actions
 
-[Unreleased]: https://github.com/GhDj/swiver-woocommerce/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/GhDj/swiver-woocommerce/releases/tag/v1.0.0
+[Unreleased]: https://github.com/GhDj/swiver-for-woocommerce/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/GhDj/swiver-for-woocommerce/releases/tag/v1.0.0
