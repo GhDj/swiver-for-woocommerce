@@ -1,0 +1,10 @@
+/.idea/
+/vendor/
+/node_modules/
+/coverage/
+composer.lock
+.phpunit.result.cache
+*.zip
+
+README.md
+

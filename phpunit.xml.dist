@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    >
+    <testsuites>
+        <testsuite name="unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">./inc</directory>
+        </include>
+        <exclude>
+            <directory>./tests</directory>
+            <directory>./vendor</directory>
+        </exclude>
+    </coverage>
+    <php>
+        <const name="SWIVER_PLUGIN_DIR" value="./"/>
+        <const name="SWIVER_PLUGIN_URL" value="http://example.com/wp-content/plugins/swiver/"/>
+        <const name="SWIVER_API_URL" value="https://server.swiver.io/open_api/"/>
+        <const name="SWIVER_VERSION" value="1.0.0"/>
+    </php>
+</phpunit>
