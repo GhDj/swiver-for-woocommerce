@@ -40,7 +40,7 @@
 
 Or install via composer:
 ```bash
-composer require ghdj/swiver-woocommerce
+composer require ghdj/swiver-for-woocommerce
 ```
 
 ## Full Changelog

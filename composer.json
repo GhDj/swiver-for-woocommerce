@@ -1,5 +1,5 @@
 {
-    "name": "ghdj/swiver-woocommerce",
+    "name": "ghdj/swiver-for-woocommerce",
     "description": "WooCommerce integration with Swiver invoicing platform",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
