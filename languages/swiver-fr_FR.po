@@ -1,0 +1,56 @@
+# Copyright (C) 2024 Swiver pour WooCommerce
+# This file is distributed under the same license as the Swiver pour WooCommerce package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Swiver pour WooCommerce 1.0.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.1.1\n"
+
+msgid "swiver_settings"
+msgstr "Paramètres Swiver"
+
+msgid "company_details"
+msgstr "Détails de l'entreprise"
+
+msgid "company"
+msgstr "Entreprise"
+
+msgid "user_name"
+msgstr "Nom d'utilisateur"
+
+msgid "website"
+msgstr "Site web"
+
+msgid "taxes"
+msgstr "Taxes"
+
+msgid "brands"
+msgstr "Marques"
+
+msgid "warehouses"
+msgstr "Entrepôts"
+
+msgid "address"
+msgstr "Adresse"
+
+msgid "categories"
+msgstr "Catégories"
+
+msgid "units"
+msgstr "Unités"
+
+msgid "swiver_token"
+msgstr "Token Swiver"
+
+msgid "disconnect"
+msgstr "Déconnecter"
+
+msgid "synchronize"
+msgstr "Synchroniser"

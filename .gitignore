@@ -1,0 +1,12 @@
+/.idea/
+/vendor/
+/node_modules/
+/coverage/
+composer.lock
+.phpunit.result.cache
+*.zip
+
+# Development files (not for repository)
+/.claude/
+PROGRESS.md
+README.md
