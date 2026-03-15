@@ -20,8 +20,8 @@ Please be respectful and constructive in all interactions. We welcome contributo
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/GhDj/swiver-woocommerce.git
-   cd swiver-woocommerce
+   git clone https://github.com/GhDj/swiver-for-woocommerce.git
+   cd swiver-for-woocommerce
    ```
 
 2. Install dependencies:

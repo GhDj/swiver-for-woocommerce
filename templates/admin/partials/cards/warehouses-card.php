@@ -8,7 +8,7 @@ use Swiver\Swiver_WooCommerce\Swiver_Helper;
 ?>
 
 <div class="card p-0">
-    <h5 class="card-header bg-primary-subtle p-3 text-white"><?php echo esc_html(__('Warehouses', 'swiver')); ?></h5>
+    <h5 class="card-header bg-primary-subtle p-3 text-white"><?php echo esc_html(__('Warehouses', 'swiver-for-woocommerce')); ?></h5>
     <div class="card-body">
         <?php
         $warehouses = Swiver_Helper::get_api_data('warehouses');
@@ -28,7 +28,7 @@ use Swiver\Swiver_WooCommerce\Swiver_Helper;
                 <?php endforeach; ?>
             </ul>
         <?php else: ?>
-            <p class="text-muted"><?php echo esc_html__('No warehouses available.', 'swiver'); ?></p>
+            <p class="text-muted"><?php echo esc_html__('No warehouses available.', 'swiver-for-woocommerce'); ?></p>
         <?php endif; ?>
     </div>
 </div>
