@@ -112,3 +112,5 @@ jobs:
         with:
           build-dir: '.'
           wp-version: 'latest'
+          exclude-directories: 'tests,.github,docs'
+          exclude-files: 'phpunit.xml.dist,composer.json,composer.lock'

@@ -153,7 +153,7 @@ class Swiver_Order_Sync {
 			error_log(__('Error validating draft:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
 			return false;
 		} else {
-			error_log(__('Order synced success', 'swiver'));
+			error_log('Order synced success');
 			$body = wp_remote_retrieve_body( $response );
 			return json_decode($body, true);
 		}

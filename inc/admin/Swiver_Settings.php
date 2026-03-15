@@ -96,7 +96,7 @@ class Swiver_Settings
             wp_send_json_error(['message' => __('Permission denied.', 'swiver-for-woocommerce')]);
         }
 
-        $token = isset($_POST['token']) ? sanitize_text_field($_POST['token']) : '';
+        $token = isset($_POST['token']) ? sanitize_text_field(wp_unslash($_POST['token'])) : '';
 
         if (empty($token)) {
             wp_send_json_error(['message' => __('Token cannot be empty.', 'swiver-for-woocommerce')]);
@@ -185,7 +185,7 @@ class Swiver_Settings
         }
 
         $tax_rate = isset($_POST['tax_rate']) ? floatval($_POST['tax_rate']) : 0;
-        $tax_name = isset($_POST['tax_name']) ? sanitize_text_field($_POST['tax_name']) : '';
+        $tax_name = isset($_POST['tax_name']) ? sanitize_text_field(wp_unslash($_POST['tax_name'])) : '';
         $tax_id = isset($_POST['tax_id']) ? intval($_POST['tax_id']) : 0;
 
         if ($tax_rate <= 0) {
@@ -197,6 +197,7 @@ class Swiver_Settings
             'tax_rate_country'  => '',
             'tax_rate_state'    => '',
             'tax_rate'          => $tax_rate,
+            /* translators: %s: tax rate percentage */
             'tax_rate_name'     => $tax_name ?: sprintf(__('Tax %s%%', 'swiver-for-woocommerce'), $tax_rate),
             'tax_rate_priority' => 1,
             'tax_rate_compound' => 0,
@@ -222,6 +223,7 @@ class Swiver_Settings
                 Swiver_Helper::clear_options_cache();
             }
 
+            /* translators: %s: tax rate percentage */
             wp_send_json_success([
                 'message' => sprintf(__('Tax rate %s%% added to WooCommerce.', 'swiver-for-woocommerce'), $tax_rate),
                 'wc_name' => $tax_rate_data['tax_rate_name']
@@ -261,6 +263,7 @@ class Swiver_Settings
             }
 
             // Create WooCommerce tax rate
+            /* translators: %s: tax rate percentage */
             $wc_tax_name = $tax['name'] ?: sprintf(__('Tax %s%%', 'swiver-for-woocommerce'), $tax_rate);
             $tax_rate_data = [
                 'tax_rate_country'  => '',
@@ -290,22 +293,24 @@ class Swiver_Settings
         Swiver_Helper::clear_options_cache();
 
         if ($added_count > 0) {
+            /* translators: %d: number of tax rates added */
             $message = sprintf(
                 _n(
                     '%d tax rate added to WooCommerce.',
                     '%d tax rates added to WooCommerce.',
                     $added_count,
-                    'swiver'
+                    'swiver-for-woocommerce'
                 ),
                 $added_count
             );
             if ($failed_count > 0) {
+                /* translators: %d: number of failed tax imports */
                 $message .= ' ' . sprintf(
                     _n(
                         '%d failed.',
                         '%d failed.',
                         $failed_count,
-                        'swiver'
+                        'swiver-for-woocommerce'
                     ),
                     $failed_count
                 );
@@ -373,7 +378,7 @@ class Swiver_Settings
 
         if (!empty($api_data) && isset($api_data['data'])) {
             update_option('swiver_api_retrieved_data', $api_data);
-            update_option('swiver_last_sync', current_time('timestamp'));
+            update_option('swiver_last_sync', time());
             Swiver_Helper::clear_options_cache();
             return true;
         }
@@ -401,7 +406,8 @@ class Swiver_Settings
 
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code !== 200) {
-            error_log(sprintf(__('API returned status code %d for endpoint: %s', 'swiver-for-woocommerce'), $status_code, $key));
+            /* translators: %1$d: HTTP status code, %2$s: API endpoint name */
+            error_log(sprintf(__('API returned status code %1$d for endpoint: %2$s', 'swiver-for-woocommerce'), $status_code, $key));
             return false;
         }
 
@@ -410,19 +416,22 @@ class Swiver_Settings
 
         // Check if JSON decoding failed
         if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log(sprintf(__('JSON decode error for %s: %s', 'swiver-for-woocommerce'), $key, json_last_error_msg()));
+            /* translators: %1$s: API endpoint name, %2$s: error message */
+            error_log(sprintf(__('JSON decode error for %1$s: %2$s', 'swiver-for-woocommerce'), $key, json_last_error_msg()));
             return false;
         }
 
         // Check for API error responses (error object with code and message)
         if (is_array($data) && isset($data['code']) && isset($data['message'])) {
-            error_log(sprintf(__('API error for %s: %s', 'swiver-for-woocommerce'), $key, $data['message']));
+            /* translators: %1$s: API endpoint name, %2$s: error message */
+            error_log(sprintf(__('API error for %1$s: %2$s', 'swiver-for-woocommerce'), $key, $data['message']));
             return false;
         }
 
         // For non-critical endpoints, allow empty arrays (they might just have no data)
         // For 'me' endpoint, we need actual data
         if ($key === 'me' && empty($data)) {
+            /* translators: %s: API endpoint name */
             error_log(sprintf(__('Empty response for critical endpoint: %s', 'swiver-for-woocommerce'), $key));
             return false;
         }
