@@ -39,8 +39,8 @@ class Swiver_Settings
     public function add_settings_page()
     {
         add_menu_page(
-            __('swiver_settings', 'swiver'),        // Page title
-            __('Swiver', 'swiver'),                 // Menu title
+            __('swiver_settings', 'swiver-for-woocommerce'),        // Page title
+            __('Swiver', 'swiver-for-woocommerce'),                 // Menu title
             'manage_options',            // Capability
             'swiver-token-settings',        // Menu slug
             [$this, 'settings_page_content'],  // Callback function
@@ -93,13 +93,13 @@ class Swiver_Settings
         check_ajax_referer('swiver_ajax_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
+            wp_send_json_error(['message' => __('Permission denied.', 'swiver-for-woocommerce')]);
         }
 
         $token = isset($_POST['token']) ? sanitize_text_field($_POST['token']) : '';
 
         if (empty($token)) {
-            wp_send_json_error(['message' => __('Token cannot be empty.', 'swiver')]);
+            wp_send_json_error(['message' => __('Token cannot be empty.', 'swiver-for-woocommerce')]);
         }
 
         // Save the token
@@ -109,18 +109,18 @@ class Swiver_Settings
         $result = $this->fetch_all_api_data($token);
 
         if ($result === false) {
-            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver')]);
+            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver-for-woocommerce')]);
         }
 
         $api_data = Swiver_Helper::get_api_data();
 
         if (!empty($api_data)) {
             wp_send_json_success([
-                'message' => __('Successfully synchronized with Swiver!', 'swiver'),
+                'message' => __('Successfully synchronized with Swiver!', 'swiver-for-woocommerce'),
                 'data' => $api_data
             ]);
         } else {
-            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver')]);
+            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver-for-woocommerce')]);
         }
     }
 
@@ -130,31 +130,31 @@ class Swiver_Settings
         check_ajax_referer('swiver_ajax_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
+            wp_send_json_error(['message' => __('Permission denied.', 'swiver-for-woocommerce')]);
         }
 
         $token = get_option('swiver_token');
 
         if (empty($token)) {
-            wp_send_json_error(['message' => __('No token found. Please connect first.', 'swiver')]);
+            wp_send_json_error(['message' => __('No token found. Please connect first.', 'swiver-for-woocommerce')]);
         }
 
         // Fetch API data using existing token
         $result = $this->fetch_all_api_data($token);
 
         if ($result === false) {
-            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver')]);
+            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver-for-woocommerce')]);
         }
 
         $api_data = Swiver_Helper::get_api_data();
 
         if (!empty($api_data)) {
             wp_send_json_success([
-                'message' => __('Successfully resynced with Swiver!', 'swiver'),
+                'message' => __('Successfully resynced with Swiver!', 'swiver-for-woocommerce'),
                 'data' => $api_data
             ]);
         } else {
-            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver')]);
+            wp_send_json_error(['message' => __('Failed to fetch data from Swiver API.', 'swiver-for-woocommerce')]);
         }
     }
 
@@ -164,7 +164,7 @@ class Swiver_Settings
         check_ajax_referer('swiver_ajax_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
+            wp_send_json_error(['message' => __('Permission denied.', 'swiver-for-woocommerce')]);
         }
 
         delete_option('swiver_token');
@@ -172,7 +172,7 @@ class Swiver_Settings
         delete_option('swiver_last_sync');
         Swiver_Helper::clear_options_cache();
 
-        wp_send_json_success(['message' => __('Disconnected from Swiver.', 'swiver')]);
+        wp_send_json_success(['message' => __('Disconnected from Swiver.', 'swiver-for-woocommerce')]);
     }
 
     // AJAX: Add tax to WooCommerce
@@ -181,7 +181,7 @@ class Swiver_Settings
         check_ajax_referer('swiver_ajax_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
+            wp_send_json_error(['message' => __('Permission denied.', 'swiver-for-woocommerce')]);
         }
 
         $tax_rate = isset($_POST['tax_rate']) ? floatval($_POST['tax_rate']) : 0;
@@ -189,7 +189,7 @@ class Swiver_Settings
         $tax_id = isset($_POST['tax_id']) ? intval($_POST['tax_id']) : 0;
 
         if ($tax_rate <= 0) {
-            wp_send_json_error(['message' => __('Invalid tax rate.', 'swiver')]);
+            wp_send_json_error(['message' => __('Invalid tax rate.', 'swiver-for-woocommerce')]);
         }
 
         // Create WooCommerce tax rate
@@ -197,7 +197,7 @@ class Swiver_Settings
             'tax_rate_country'  => '',
             'tax_rate_state'    => '',
             'tax_rate'          => $tax_rate,
-            'tax_rate_name'     => $tax_name ?: sprintf(__('Tax %s%%', 'swiver'), $tax_rate),
+            'tax_rate_name'     => $tax_name ?: sprintf(__('Tax %s%%', 'swiver-for-woocommerce'), $tax_rate),
             'tax_rate_priority' => 1,
             'tax_rate_compound' => 0,
             'tax_rate_shipping' => 1,
@@ -223,11 +223,11 @@ class Swiver_Settings
             }
 
             wp_send_json_success([
-                'message' => sprintf(__('Tax rate %s%% added to WooCommerce.', 'swiver'), $tax_rate),
+                'message' => sprintf(__('Tax rate %s%% added to WooCommerce.', 'swiver-for-woocommerce'), $tax_rate),
                 'wc_name' => $tax_rate_data['tax_rate_name']
             ]);
         } else {
-            wp_send_json_error(['message' => __('Failed to create tax rate.', 'swiver')]);
+            wp_send_json_error(['message' => __('Failed to create tax rate.', 'swiver-for-woocommerce')]);
         }
     }
 
@@ -237,12 +237,12 @@ class Swiver_Settings
         check_ajax_referer('swiver_ajax_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => __('Permission denied.', 'swiver')]);
+            wp_send_json_error(['message' => __('Permission denied.', 'swiver-for-woocommerce')]);
         }
 
         $api_data = Swiver_Helper::get_api_data();
         if (empty($api_data['taxes'])) {
-            wp_send_json_error(['message' => __('No taxes found.', 'swiver')]);
+            wp_send_json_error(['message' => __('No taxes found.', 'swiver-for-woocommerce')]);
         }
 
         $added_count = 0;
@@ -261,7 +261,7 @@ class Swiver_Settings
             }
 
             // Create WooCommerce tax rate
-            $wc_tax_name = $tax['name'] ?: sprintf(__('Tax %s%%', 'swiver'), $tax_rate);
+            $wc_tax_name = $tax['name'] ?: sprintf(__('Tax %s%%', 'swiver-for-woocommerce'), $tax_rate);
             $tax_rate_data = [
                 'tax_rate_country'  => '',
                 'tax_rate_state'    => '',
@@ -312,7 +312,7 @@ class Swiver_Settings
             }
             wp_send_json_success(['message' => $message, 'added' => $added_count]);
         } else {
-            wp_send_json_error(['message' => __('No taxes were added.', 'swiver')]);
+            wp_send_json_error(['message' => __('No taxes were added.', 'swiver-for-woocommerce')]);
         }
     }
 
@@ -350,7 +350,7 @@ class Swiver_Settings
         $response = $this->fetch_api_endpoint('me', $api_token);
         if ($response === false) {
             // Critical endpoint failed
-            error_log(__('Failed to fetch company data from Swiver API', 'swiver'));
+            error_log(__('Failed to fetch company data from Swiver API', 'swiver-for-woocommerce'));
             return false;
         }
         if ($response) {
@@ -395,13 +395,13 @@ class Swiver_Settings
         );
 
         if (is_wp_error($response)) {
-            error_log(__('Error retrieving data from API:', 'swiver') . ' ' . $response->get_error_message());
+            error_log(__('Error retrieving data from API:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
             return false;
         }
 
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code !== 200) {
-            error_log(sprintf(__('API returned status code %d for endpoint: %s', 'swiver'), $status_code, $key));
+            error_log(sprintf(__('API returned status code %d for endpoint: %s', 'swiver-for-woocommerce'), $status_code, $key));
             return false;
         }
 
@@ -410,20 +410,20 @@ class Swiver_Settings
 
         // Check if JSON decoding failed
         if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log(sprintf(__('JSON decode error for %s: %s', 'swiver'), $key, json_last_error_msg()));
+            error_log(sprintf(__('JSON decode error for %s: %s', 'swiver-for-woocommerce'), $key, json_last_error_msg()));
             return false;
         }
 
         // Check for API error responses (error object with code and message)
         if (is_array($data) && isset($data['code']) && isset($data['message'])) {
-            error_log(sprintf(__('API error for %s: %s', 'swiver'), $key, $data['message']));
+            error_log(sprintf(__('API error for %s: %s', 'swiver-for-woocommerce'), $key, $data['message']));
             return false;
         }
 
         // For non-critical endpoints, allow empty arrays (they might just have no data)
         // For 'me' endpoint, we need actual data
         if ($key === 'me' && empty($data)) {
-            error_log(sprintf(__('Empty response for critical endpoint: %s', 'swiver'), $key));
+            error_log(sprintf(__('Empty response for critical endpoint: %s', 'swiver-for-woocommerce'), $key));
             return false;
         }
 
@@ -476,11 +476,11 @@ class Swiver_Settings
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('swiver_ajax_nonce'),
             'strings' => [
-                'syncing' => __('Synchronizing...', 'swiver'),
-                'resyncing' => __('Resyncing...', 'swiver'),
-                'disconnecting' => __('Disconnecting...', 'swiver'),
-                'addingTaxes' => __('Adding...', 'swiver'),
-                'confirmAddAllTaxes' => __('Add all unmatched tax rates to WooCommerce?', 'swiver'),
+                'syncing' => __('Synchronizing...', 'swiver-for-woocommerce'),
+                'resyncing' => __('Resyncing...', 'swiver-for-woocommerce'),
+                'disconnecting' => __('Disconnecting...', 'swiver-for-woocommerce'),
+                'addingTaxes' => __('Adding...', 'swiver-for-woocommerce'),
+                'confirmAddAllTaxes' => __('Add all unmatched tax rates to WooCommerce?', 'swiver-for-woocommerce'),
             ]
         ]);
     }

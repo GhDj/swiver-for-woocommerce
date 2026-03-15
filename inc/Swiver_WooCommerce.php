@@ -41,7 +41,7 @@ class Swiver_WooCommerce {
 			add_action( 'admin_notices', function () {
 				?>
 				<div id="message" class="notice notice-error">
-					<p><?php esc_html(__( 'Swiver requires an active version of WooCommerce', 'swiver' )); ?></p>
+					<p><?php esc_html(__( 'Swiver requires an active version of WooCommerce', 'swiver-for-woocommerce' )); ?></p>
 				</div>
 				<?php
 			} );
@@ -55,7 +55,7 @@ class Swiver_WooCommerce {
 
 	public function plugin_action_links( $links = [] ) {
 		$plugin_links = [
-			'<a href="' . esc_url( Swiver_Helper::get_setting_link() ) . '">' . esc_html__( 'Settings', 'swiver' ) . '</a>',
+			'<a href="' . esc_url( Swiver_Helper::get_setting_link() ) . '">' . esc_html__( 'Settings', 'swiver-for-woocommerce' ) . '</a>',
 		];
 
 		return array_merge( $plugin_links, $links );
@@ -77,18 +77,18 @@ class Swiver_WooCommerce {
 			array(
 				'id'      => 'swiver-sync',
 				'value'   => $swiver_sync,
-				'label'   => __( 'Swiver sync', 'swiver' ),
+				'label'   => __( 'Swiver sync', 'swiver-for-woocommerce' ),
 				'desc_tip' => true,
-				'description' => __( 'This product is synchronised with Swiver', 'swiver' ),
+				'description' => __( 'This product is synchronised with Swiver', 'swiver-for-woocommerce' ),
 			)
 		);
 		woocommerce_wp_text_input(
 			array(
 				'id'      => 'swiver-id',
 				'value'   => $swiver_id,
-				'label'   => __( 'Swiver ID', 'swiver' ),
+				'label'   => __( 'Swiver ID', 'swiver-for-woocommerce' ),
 				'desc_tip' => true,
-				'description' => __( 'Product ID on Swiver', 'swiver' ),
+				'description' => __( 'Product ID on Swiver', 'swiver-for-woocommerce' ),
 			)
 		);
 		echo '</div>';
