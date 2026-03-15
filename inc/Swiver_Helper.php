@@ -2,6 +2,10 @@
 
 namespace Swiver\Swiver_WooCommerce;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Swiver_Helper {
     private static $options = null;
     private static $tax_cache = null;
@@ -90,8 +94,9 @@ class Swiver_Helper {
         if (!$timestamp) {
             return __('Never', 'swiver-for-woocommerce');
         }
+        /* translators: %1$s: date, %2$s: time */
         return sprintf(
-            __('%s at %s', 'swiver-for-woocommerce'),
+            __('%1$s at %2$s', 'swiver-for-woocommerce'),
             date_i18n(get_option('date_format'), $timestamp),
             date_i18n(get_option('time_format'), $timestamp)
         );

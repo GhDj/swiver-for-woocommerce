@@ -2,7 +2,7 @@
 Contributors: ghabri, swiver
 Tags: woocommerce, invoices, invoicing, swiver, order sync
 Requires at least: 6.0
-Tested up to: 6.7.1
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv3 or later
