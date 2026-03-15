@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: WP-CLI\n"
-"X-Domain: swiver\n"
+"X-Domain: swiver-for-woocommerce\n"
 
 #: swiver.php:87
 #: swiver.php:111

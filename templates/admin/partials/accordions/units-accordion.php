@@ -12,7 +12,7 @@ use Swiver\Swiver_WooCommerce\Swiver_Helper;
         <button class="accordion-button collapsed bg-primary-subtle text-white" type="button"
                 data-bs-toggle="collapse" data-bs-target="#units" aria-expanded="false"
                 aria-controls="units">
-            <?php echo esc_html(__('Units', 'swiver')); ?>
+            <?php echo esc_html(__('Units', 'swiver-for-woocommerce')); ?>
         </button>
     </h2>
     <div id="units" class="accordion-collapse collapse" data-bs-parent="">
@@ -24,9 +24,9 @@ use Swiver\Swiver_WooCommerce\Swiver_Helper;
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th scope="col"><?php echo esc_html__('ID', 'swiver'); ?></th>
-                        <th scope="col"><?php echo esc_html__('Name', 'swiver'); ?></th>
-                        <th scope="col"><?php echo esc_html__('Code', 'swiver'); ?></th>
+                        <th scope="col"><?php echo esc_html__('ID', 'swiver-for-woocommerce'); ?></th>
+                        <th scope="col"><?php echo esc_html__('Name', 'swiver-for-woocommerce'); ?></th>
+                        <th scope="col"><?php echo esc_html__('Code', 'swiver-for-woocommerce'); ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,7 +40,7 @@ use Swiver\Swiver_WooCommerce\Swiver_Helper;
                     </tbody>
                 </table>
             <?php else: ?>
-                <p class="text-muted"><?php echo esc_html__('No units available.', 'swiver'); ?></p>
+                <p class="text-muted"><?php echo esc_html__('No units available.', 'swiver-for-woocommerce'); ?></p>
             <?php endif; ?>
         </div>
     </div>
