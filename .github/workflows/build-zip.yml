@@ -36,11 +36,10 @@ jobs:
             echo "version=$VERSION" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build ZIP
+      - name: Build plugin directory
         run: |
           PLUGIN_SLUG="swiver-for-woocommerce"
-          BUILD_DIR="${PLUGIN_SLUG}"
-          ZIP_FILE="${PLUGIN_SLUG}-${{ steps.version.outputs.version }}.zip"
+          BUILD_DIR="build/${PLUGIN_SLUG}"
 
           mkdir -p "$BUILD_DIR"
 
@@ -57,12 +56,9 @@ jobs:
           cp LICENSE.txt "$BUILD_DIR/"
           cp CHANGELOG.md "$BUILD_DIR/"
 
-          zip -r "$ZIP_FILE" "$BUILD_DIR"
-          echo "zip_file=$ZIP_FILE" >> $GITHUB_ENV
-
       - name: Upload ZIP artifact
         uses: actions/upload-artifact@v4
         with:
           name: swiver-for-woocommerce-${{ steps.version.outputs.version }}
-          path: ${{ env.zip_file }}
+          path: build/
           retention-days: 90
