@@ -94,8 +94,8 @@ class Swiver_Helper {
         if (!$timestamp) {
             return __('Never', 'swiver-for-woocommerce');
         }
-        /* translators: %1$s: date, %2$s: time */
         return sprintf(
+            /* translators: %1$s: date, %2$s: time */
             __('%1$s at %2$s', 'swiver-for-woocommerce'),
             date_i18n(get_option('date_format'), $timestamp),
             date_i18n(get_option('time_format'), $timestamp)

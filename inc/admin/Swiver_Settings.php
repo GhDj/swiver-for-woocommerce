@@ -223,8 +223,8 @@ class Swiver_Settings
                 Swiver_Helper::clear_options_cache();
             }
 
-            /* translators: %s: tax rate percentage */
             wp_send_json_success([
+                /* translators: %s: tax rate percentage */
                 'message' => sprintf(__('Tax rate %s%% added to WooCommerce.', 'swiver-for-woocommerce'), $tax_rate),
                 'wc_name' => $tax_rate_data['tax_rate_name']
             ]);
@@ -293,8 +293,8 @@ class Swiver_Settings
         Swiver_Helper::clear_options_cache();
 
         if ($added_count > 0) {
-            /* translators: %d: number of tax rates added */
             $message = sprintf(
+                /* translators: %d: number of tax rates added */
                 _n(
                     '%d tax rate added to WooCommerce.',
                     '%d tax rates added to WooCommerce.',
@@ -304,8 +304,8 @@ class Swiver_Settings
                 $added_count
             );
             if ($failed_count > 0) {
-                /* translators: %d: number of failed tax imports */
                 $message .= ' ' . sprintf(
+                    /* translators: %d: number of failed tax imports */
                     _n(
                         '%d failed.',
                         '%d failed.',
