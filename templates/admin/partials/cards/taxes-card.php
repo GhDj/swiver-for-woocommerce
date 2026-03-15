@@ -19,7 +19,10 @@ foreach ($taxes as $tax) {
         <h5 class="mb-0 text-white"><?php echo esc_html(__('Taxes', 'swiver-for-woocommerce')); ?></h5>
         <?php if ($unmatched_count > 0): ?>
             <button type="button" id="swiver-add-all-taxes-btn" class="btn btn-sm btn-light">
-                <?php echo esc_html(sprintf(__('Add all (%d)', 'swiver-for-woocommerce'), $unmatched_count)); ?>
+                <?php
+                /* translators: %d: number of unmatched tax rates */
+                echo esc_html(sprintf(__('Add all (%d)', 'swiver-for-woocommerce'), $unmatched_count));
+                ?>
             </button>
         <?php endif; ?>
     </div>
