@@ -1,0 +1,68 @@
+name: Build Plugin ZIP
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Plugin version (e.g. 1.0.0)'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build ZIP
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+
+      - name: Install production dependencies
+        run: composer install --prefer-dist --no-progress --no-dev --optimize-autoloader
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            VERSION=$(grep -m1 "Version:" swiver.php | sed 's/.*Version:\s*//' | tr -d '[:space:]')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build ZIP
+        run: |
+          PLUGIN_SLUG="swiver-for-woocommerce"
+          BUILD_DIR="${PLUGIN_SLUG}"
+          ZIP_FILE="${PLUGIN_SLUG}-${{ steps.version.outputs.version }}.zip"
+
+          mkdir -p "$BUILD_DIR"
+
+          # Copy only production files
+          cp -r assets "$BUILD_DIR/"
+          cp -r inc "$BUILD_DIR/"
+          cp -r languages "$BUILD_DIR/"
+          cp -r templates "$BUILD_DIR/"
+          cp -r vendor "$BUILD_DIR/"
+          cp swiver.php "$BUILD_DIR/"
+          cp uninstall.php "$BUILD_DIR/"
+          cp index.php "$BUILD_DIR/"
+          cp readme.txt "$BUILD_DIR/"
+          cp LICENSE.txt "$BUILD_DIR/"
+          cp CHANGELOG.md "$BUILD_DIR/"
+
+          zip -r "$ZIP_FILE" "$BUILD_DIR"
+          echo "zip_file=$ZIP_FILE" >> $GITHUB_ENV
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiver-for-woocommerce-${{ steps.version.outputs.version }}
+          path: ${{ env.zip_file }}
+          retention-days: 90

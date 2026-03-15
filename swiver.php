@@ -4,8 +4,8 @@
  * Plugin URI:
  * Description: The Swiver extension for WordPress is a powerful tool designed to seamlessly integrate your company’s website with the Swiver invoicing platform
  * Author:          Ghabri Djalel
- * Author URI:      https://github.com/GhDj
- * Text Domain:     swiver
+ * Author URI:      https://ghabri.com
+ * Text Domain:     swiver-for-woocommerce
  * Domain Path:     /languages
  * Version:         1.0.0
  * WC tested up to: 9.5.2
@@ -51,7 +51,7 @@ require_once plugin_dir_path(__FILE__) . 'inc/Autoloader.php';
 
 // Load plugin text domain for translations
 function swiver_load_textdomain() {
-	$domain = 'swiver';
+	$domain = 'swiver-for-woocommerce';
 
 	$locale = apply_filters( 'plugin_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
 
@@ -83,7 +83,7 @@ function swiver_for_woocommerce_activate() {
 	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 		deactivate_plugins(plugin_basename(__FILE__));
 
-        wp_die(  esc_html(__('Swiver for WooCommerce requires WooCommerce to be installed and activated.', 'swiver')) );
+        wp_die(  esc_html(__('Swiver for WooCommerce requires WooCommerce to be installed and activated.', 'swiver-for-woocommerce')) );
     }
 }
 
@@ -100,13 +100,13 @@ function swiver_for_woocommerce_deactivate() {
 	}
 
 	// Log the deactivation
-	error_log(__('Swiver for WooCommerce has been deactivated and all data has been cleared.', 'swiver'));
+	error_log(__('Swiver for WooCommerce has been deactivated and all data has been cleared.', 'swiver-for-woocommerce'));
 }
 
 add_action('admin_notices', __NAMESPACE__ . '\\swiver_for_woocommerce_admin_notice');
 
 function swiver_for_woocommerce_admin_notice() {
 	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-		echo '<div class="error"><p>'. esc_html(__('Swiver for WooCommerce requires WooCommerce to be installed and activated.', 'swiver')) . '</p></div>';
+		echo '<div class="error"><p>'. esc_html(__('Swiver for WooCommerce requires WooCommerce to be installed and activated.', 'swiver-for-woocommerce')) . '</p></div>';
     }
 }

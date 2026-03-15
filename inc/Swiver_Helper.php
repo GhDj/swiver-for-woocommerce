@@ -2,6 +2,10 @@
 
 namespace Swiver\Swiver_WooCommerce;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Swiver_Helper {
     private static $options = null;
     private static $tax_cache = null;
@@ -88,10 +92,11 @@ class Swiver_Helper {
     public static function get_last_sync_formatted() {
         $timestamp = self::get_last_sync();
         if (!$timestamp) {
-            return __('Never', 'swiver');
+            return __('Never', 'swiver-for-woocommerce');
         }
         return sprintf(
-            __('%s at %s', 'swiver'),
+            /* translators: %1$s: date, %2$s: time */
+            __('%1$s at %2$s', 'swiver-for-woocommerce'),
             date_i18n(get_option('date_format'), $timestamp),
             date_i18n(get_option('time_format'), $timestamp)
         );
@@ -144,7 +149,7 @@ class Swiver_Helper {
         ]);
 
         if (is_wp_error($response)) {
-            error_log(__('Error retrieving taxes from API:', 'swiver') . ' ' . $response->get_error_message());
+            error_log(__('Error retrieving taxes from API:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
             return [];
         }
 

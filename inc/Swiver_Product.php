@@ -2,6 +2,10 @@
 
 namespace Swiver\Swiver_WooCommerce;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Automattic\WooCommerce\Utilities\OrderUtil;
 
 class Swiver_Product {
