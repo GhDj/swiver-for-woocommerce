@@ -2,6 +2,10 @@
 
 namespace Swiver\Swiver_WooCommerce;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Autoloader {
 
 	public static function register() {
