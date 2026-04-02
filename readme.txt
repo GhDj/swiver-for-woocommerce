@@ -1,5 +1,5 @@
 === Swiver for WooCommerce ===
-Contributors: ghabri, swiver
+Contributors: swiver, ghabri
 Tags: woocommerce, invoices, invoicing, swiver, order sync
 Requires at least: 6.0
 Tested up to: 6.9
