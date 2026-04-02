@@ -3,8 +3,8 @@
  * Plugin Name:     Swiver for WooCommerce
  * Plugin URI:
  * Description: The Swiver extension for WordPress is a powerful tool designed to seamlessly integrate your company’s website with the Swiver invoicing platform
- * Author:          Ghabri Djalel
- * Author URI:      https://ghabri.com
+ * Author:          Swiver
+ * Author URI:      https://swiver.io
  * Text Domain:     swiver-for-woocommerce
  * Domain Path:     /languages
  * Version:         1.0.0
