@@ -149,7 +149,9 @@ class Swiver_Helper {
         ]);
 
         if (is_wp_error($response)) {
-            error_log(__('Error retrieving taxes from API:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(__('Error retrieving taxes from API:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
+            }
             return [];
         }
 

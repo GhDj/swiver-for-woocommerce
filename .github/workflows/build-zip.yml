@@ -49,6 +49,7 @@ jobs:
           cp -r languages "$BUILD_DIR/"
           cp -r templates "$BUILD_DIR/"
           cp -r vendor "$BUILD_DIR/"
+          cp composer.json "$BUILD_DIR/"
           cp swiver.php "$BUILD_DIR/"
           cp uninstall.php "$BUILD_DIR/"
           cp index.php "$BUILD_DIR/"
