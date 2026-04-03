@@ -100,7 +100,9 @@ function swiver_for_woocommerce_deactivate() {
 	}
 
 	// Log the deactivation
-	error_log(__('Swiver for WooCommerce has been deactivated and all data has been cleared.', 'swiver-for-woocommerce'));
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		error_log(__('Swiver for WooCommerce has been deactivated and all data has been cleared.', 'swiver-for-woocommerce'));
+	}
 }
 
 add_action('admin_notices', __NAMESPACE__ . '\\swiver_for_woocommerce_admin_notice');

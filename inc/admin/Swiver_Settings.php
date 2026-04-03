@@ -355,7 +355,9 @@ class Swiver_Settings
         $response = $this->fetch_api_endpoint('me', $api_token);
         if ($response === false) {
             // Critical endpoint failed
-            error_log(__('Failed to fetch company data from Swiver API', 'swiver-for-woocommerce'));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(__('Failed to fetch company data from Swiver API', 'swiver-for-woocommerce'));
+            }
             return false;
         }
         if ($response) {
@@ -400,14 +402,18 @@ class Swiver_Settings
         );
 
         if (is_wp_error($response)) {
-            error_log(__('Error retrieving data from API:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(__('Error retrieving data from API:', 'swiver-for-woocommerce') . ' ' . $response->get_error_message());
+            }
             return false;
         }
 
         $status_code = wp_remote_retrieve_response_code($response);
         if ($status_code !== 200) {
             /* translators: %1$d: HTTP status code, %2$s: API endpoint name */
-            error_log(sprintf(__('API returned status code %1$d for endpoint: %2$s', 'swiver-for-woocommerce'), $status_code, $key));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(sprintf(__('API returned status code %1$d for endpoint: %2$s', 'swiver-for-woocommerce'), $status_code, $key));
+            }
             return false;
         }
 
@@ -417,14 +423,18 @@ class Swiver_Settings
         // Check if JSON decoding failed
         if (json_last_error() !== JSON_ERROR_NONE) {
             /* translators: %1$s: API endpoint name, %2$s: error message */
-            error_log(sprintf(__('JSON decode error for %1$s: %2$s', 'swiver-for-woocommerce'), $key, json_last_error_msg()));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(sprintf(__('JSON decode error for %1$s: %2$s', 'swiver-for-woocommerce'), $key, json_last_error_msg()));
+            }
             return false;
         }
 
         // Check for API error responses (error object with code and message)
         if (is_array($data) && isset($data['code']) && isset($data['message'])) {
             /* translators: %1$s: API endpoint name, %2$s: error message */
-            error_log(sprintf(__('API error for %1$s: %2$s', 'swiver-for-woocommerce'), $key, $data['message']));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(sprintf(__('API error for %1$s: %2$s', 'swiver-for-woocommerce'), $key, $data['message']));
+            }
             return false;
         }
 
@@ -432,7 +442,9 @@ class Swiver_Settings
         // For 'me' endpoint, we need actual data
         if ($key === 'me' && empty($data)) {
             /* translators: %s: API endpoint name */
-            error_log(sprintf(__('Empty response for critical endpoint: %s', 'swiver-for-woocommerce'), $key));
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log(sprintf(__('Empty response for critical endpoint: %s', 'swiver-for-woocommerce'), $key));
+            }
             return false;
         }
 
