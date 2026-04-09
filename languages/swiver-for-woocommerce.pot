@@ -14,12 +14,12 @@ msgstr ""
 "X-Generator: WP-CLI\n"
 "X-Domain: swiver-for-woocommerce\n"
 
-#: swiver.php:87
-#: swiver.php:111
+#: swiver-for-woocommerce.php:87
+#: swiver-for-woocommerce.php:111
 msgid "Swiver for WooCommerce requires WooCommerce to be installed and activated."
 msgstr ""
 
-#: swiver.php:104
+#: swiver-for-woocommerce.php:104
 msgid "Swiver for WooCommerce has been deactivated and all data has been cleared."
 msgstr ""
 
