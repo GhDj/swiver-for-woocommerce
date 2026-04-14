@@ -32,7 +32,7 @@ jobs:
           if [ -n "${{ github.event.inputs.version }}" ]; then
             echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
           else
-            VERSION=$(grep -m1 "Version:" swiver.php | sed 's/.*Version:\s*//' | tr -d '[:space:]')
+            VERSION=$(grep -m1 "Version:" swiver-for-woocommerce.php | sed 's/.*Version:\s*//' | tr -d '[:space:]')
             echo "version=$VERSION" >> $GITHUB_OUTPUT
           fi
 
@@ -50,7 +50,7 @@ jobs:
           cp -r templates "$BUILD_DIR/"
           cp -r vendor "$BUILD_DIR/"
           cp composer.json "$BUILD_DIR/"
-          cp swiver.php "$BUILD_DIR/"
+          cp swiver-for-woocommerce.php "$BUILD_DIR/"
           cp uninstall.php "$BUILD_DIR/"
           cp index.php "$BUILD_DIR/"
           cp readme.txt "$BUILD_DIR/"
